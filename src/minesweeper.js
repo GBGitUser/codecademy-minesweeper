@@ -10,10 +10,10 @@ class Game {
       this._board.print();
     } else if(!this._board.hasSafeTiles()) {
       console.log('HURRAH! YOU HAVE WON!');
-      this.board.print();
+      this._board.print();
     } else {
       console.log('\nCurrent Board:\n');
-      this.board.print();
+      this._board.print();
     }
   }
 }
@@ -37,7 +37,7 @@ class Board {
     } else if (this._bombBoard[rowIndex][columnIndex] === 'B') {
       this._playerBoard[rowIndex][columnIndex] = 'B';
     } else {
-      this._playerBoard[rowIndex][columnIndex] = Board.getNumberOfNeighbourBombs(rowIndex, columnIndex);
+      this._playerBoard[rowIndex][columnIndex] = this.getNumberOfNeighbourBombs(rowIndex, columnIndex);
     }
     this._numberOfTiles--;
   }
@@ -61,12 +61,12 @@ class Board {
       const neighbourRowIndex = offset[0] + rowIndex;
       const neighbourColumnIndex = offset[1] + columnIndex;
       if (neighbourRowIndex >= 0 && neighbourRowIndex <= numberOfRows && neighbourColumnIndex >= 0 && neighbourColumnIndex <= numberOfColumns) {
-        if (bombBoard[neighbourRowIndex][neighbourColumnIndex] === 'B') {
-            this._numberOfBombs++;
+        if (this._bombBoard[neighbourRowIndex][neighbourColumnIndex] === 'B') {
+            numberOfBombs++;
         }
       }
     });
-    return this._numberOfBombs;
+    return numberOfBombs;
   }
 
   hasSafeTiles() {
@@ -74,7 +74,9 @@ class Board {
   }
 
   print() {
+    console.log('\nPLAYER BOARD:\n');
     console.log(this._playerBoard.map(row => row.join(' | ')).join('\n'));
+    console.log('\nBOMB BOARD:\n');
     console.log(this._bombBoard.map(row => row.join(' | ')).join('\n'));
   }
 
@@ -115,5 +117,5 @@ class Board {
 
 }
 
-const g = new Game(3,3,3);
-g.playMove(0,0);
+const g = new Game(5,5,5);
+g.playMove(2,4);
